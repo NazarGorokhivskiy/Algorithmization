@@ -2,7 +2,7 @@ from datetime import datetime
 
 
 class BubbleManager:
-    # sorts array elements by memory size in increasing order
+    # sorts array elements by memory size in decreasing order
     @staticmethod
     def bubble_sort(arr):
         start_time = datetime.now().microsecond
@@ -12,7 +12,7 @@ class BubbleManager:
         for k in range(len(arr)):
             for i in range(k):
                 compare_count += 1
-                if arr[i].memory > arr[i + 1].memory:
+                if arr[i].memory < arr[i + 1].memory:
                     arr[i], arr[i + 1] = arr[i + 1], arr[i]
                     swap_count += 1
         # output
