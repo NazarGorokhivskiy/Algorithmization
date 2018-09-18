@@ -34,25 +34,26 @@ class MergeManager:
             MergeManager.sort(left_half)
             MergeManager.sort(right_half)
 
-            i = 0
-            j = 0
-            k = 0
-            while i < len(left_half) and j < len(right_half):
+            left_iter = 0
+            right_iter = 0
+            iter = 0
+            while left_iter < len(left_half) and right_iter < len(right_half):
                 MergeManager.compare_count += 1
-                if left_half[i].zoom_ratio < right_half[j].zoom_ratio:
-                    arr[k] = left_half[i]
-                    i += 1
+                MergeManager.swap_count += 1
+                if left_half[left_iter].zoom_ratio < right_half[right_iter].zoom_ratio:
+                    arr[iter] = left_half[left_iter]
+                    left_iter += 1
                 else:
-                    arr[k] = right_half[j]
-                    j += 1
-                k += 1
+                    arr[iter] = right_half[right_iter]
+                    right_iter += 1
+                iter += 1
 
-            while i < len(left_half):
-                arr[k] = left_half[i]
-                i += 1
-                k += 1
+            while left_iter < len(left_half):
+                arr[iter] = left_half[left_iter]
+                left_iter += 1
+                iter += 1
 
-            while j < len(right_half):
-                arr[k] = right_half[j]
-                j += 1
-                k += 1
+            while right_iter < len(right_half):
+                arr[iter] = right_half[right_iter]
+                right_iter += 1
+                iter += 1

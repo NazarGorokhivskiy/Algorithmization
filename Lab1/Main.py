@@ -5,6 +5,9 @@ from Camera import Camera
 
 class Main:
     ARRAY_SIZE = 100
+    INDEX_PRODUCER = 0
+    INDEX_MEMORY = 1
+    INDEX_ZOOM_RATIO = 2
     cameras = [Camera()] * ARRAY_SIZE
 
     @staticmethod
@@ -13,7 +16,8 @@ class Main:
             i = 0
             for line in file:
                 array = line.split(",")
-                Main.cameras[i] = Camera(array[0], int(array[1]), float(array[2]))
+                Main.cameras[i] = Camera(array[Main.INDEX_PRODUCER], int(array[Main.INDEX_MEMORY]),
+                                         float(array[Main.INDEX_ZOOM_RATIO]))
                 i += 1
 
     @staticmethod
