@@ -1,4 +1,4 @@
-LIST = [(1, 3), (4, 6), (10, 12), (0, 9)]
+LIST = [(1, 3)]
 
 
 def gorokhivskiy_algorithm(list):
