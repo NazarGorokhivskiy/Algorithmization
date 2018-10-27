@@ -15,4 +15,4 @@ class MainTest(unittest.TestCase):
         test_results = [4, 6, 0, 8]
 
         for i in range(test_lists.__len__()):
-            self.assertEqual(Lab3.gorokhivskiy_wedding_algorithm(test_lists[i]), test_results[i])
+            self.assertEqual(Lab3.algorithm(test_lists[i]), test_results[i])

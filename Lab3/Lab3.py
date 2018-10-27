@@ -5,54 +5,65 @@ def read_from_file(filename):
     pairs = []
     for elem in lines[1:]:
         pairs.append(tuple(map(int, elem.split())))
-    print("Entered pairs" + str(pairs)[1:-1])
+    print("Entered pairs: " + str(pairs)[1:-1])
 
     return pairs
 
 
-def gorokhivskiy_wedding_algorithm(pairs):
+def algorithm(pairs):
     # algorithm for creating tribes with unique elements
-    tribes = [[pairs[0][0], pairs[0][1]]]
+    tribes = [set()]
+    tribes[0].add(pairs[0][0])
+    tribes[0].add(pairs[0][1])
 
-    tribes[0].__len__()
-    for i in range(1, pairs.__len__()):
-        tribes_len = tribes.__len__()
-        add_item = False
-        for j in range(tribes_len):
-            tribes_item_len = tribes[j].__len__()
-            for k in range(tribes_item_len):
-                if tribes[j][k] == pairs[i][0]:
-                    tribes[j].append(pairs[i][1])
-                    add_item = True
+    pairs_count = pairs.__len__()
+
+    for i in range(1, pairs_count):
+        added_index = 0
+        should_merge = False
+        create_new_item = True
+
+        for j in range(tribes.__len__()):
+            if pairs[i][0] in tribes[j] or pairs[i][1] in tribes[j]:
+                create_new_item = False
+                tribes[j].add(pairs[i][0])
+                tribes[j].add(pairs[i][1])
+
+                if should_merge:
+                    tribes[added_index] = tribes[added_index].union(tribes[j])
+                    tribes.pop(j)
                     break
-                elif tribes[j][k] == pairs[i][1]:
-                    tribes[j].append(pairs[i][0])
-                    add_item = True
-                    break
-        if not add_item:
-            tribes.append([pairs[i][0], pairs[i][1]])
+                should_merge = True
+                added_index = j
 
-    print("All tribes: " + str(tribes))
+        if create_new_item:
+            tribes.append(set())
+            tribes[tribes.__len__() - 1].add(pairs[i][0])
+            tribes[tribes.__len__() - 1].add(pairs[i][1])
+    print("All tribes: " + str(tribes)[1:-1])
 
-    # algorithm for counting possible pairs
+    # algorithm for counting all men and women in tribes
+    people_count = []
+    for i in range(tribes.__len__()):
+        people_count.append([0, 0])
+        for tribe_item in tribes[i]:
+            if tribe_item % 2 == 0:
+                people_count[i][0] += 1
+            else:
+                people_count[i][1] += 1
+    print("People count: " + str(people_count)[1:-1])
+
+    # counting all possible weeding pairs
     wedding_count = 0
-    wedd_pairs = []
-    if tribes.__len__() > 1:
-        for i in range(tribes.__len__() - 1):
-            for j in range(tribes[i].__len__()):
-                for i_next in range(i + 1, tribes.__len__()):
-                    for j_next in range(tribes[i_next].__len__()):
-                        if tribes[i][j] % 2 == 0 and tribes[i_next][j_next] % 2 != 0:
-                            wedding_count += 1
-                            wedd_pairs.append( (tribes[i][j], tribes[i_next][j_next]) )
-                        elif tribes[i][j] % 2 != 0 and tribes[i_next][j_next] % 2 == 0:
-                            wedding_count += 1
-                            wedd_pairs.append((tribes[i][j], tribes[i_next][j_next]))
-    print("All wedding pairs: " + str(wedd_pairs) + "\n")
+    for i in range(people_count.__len__()):
+        for j in range(i + 1, people_count.__len__()):
+            wedding_count += people_count[i][0] * people_count[j][1]
+            wedding_count += people_count[i][1] * people_count[j][0]
+
     return wedding_count
 
 
 # main function
-pairs = read_from_file("in2")
-wedd_count = gorokhivskiy_wedding_algorithm(pairs)
+pairs_from_file = read_from_file("in2")
+wedd_count = algorithm(pairs_from_file)
 print("Total possible weddings: %d \n" % wedd_count)
