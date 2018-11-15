@@ -12,18 +12,19 @@ class Graph:
     def add_vertex(self, v1, v2):
         self.vertexes[v1].append(v2)
 
-    def count_friends_with_dfs(self, head):
+    def count_friends(self, head):
         count = -1  # should be -1 because head element does not count as "friend"
         visited = []
-        stack = [head]
 
-        while stack:
-            v = stack.pop()
-            if v not in visited:
+        for neighbor in self.vertexes[head]:
+            if neighbor not in visited:
                 count += 1
-                visited.append(v)
-                for neighbor in self.vertexes[v]:
-                    stack.append(neighbor)
+                visited.append(neighbor)
+            for sub_neighbor in self.vertexes[neighbor]:
+                if sub_neighbor not in visited:
+                    count += 1
+                    visited.append(sub_neighbor)
+
         return count
 
     def print(self):
@@ -51,7 +52,7 @@ def find_max_friends(matrix):
     # finding maximum friends count in graph
     max_friend_count = 0
     for i in range(matrix.__len__()):
-        friends = graph.count_friends_with_dfs(i)
+        friends = graph.count_friends(i)
         if max_friend_count < friends:
             max_friend_count = friends
 
@@ -59,5 +60,5 @@ def find_max_friends(matrix):
 
 
 # main function
-students = parse_string(input1)
+students = parse_string(input3)
 print(find_max_friends(students))
